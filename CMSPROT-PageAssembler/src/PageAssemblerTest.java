@@ -5,7 +5,7 @@ public class PageAssemblerTest {
 	
 	public static void main(String[] args) throws IOException{
 		
-		String basePath 		= "/home/aalfodel/eclipse-workspace/CMSPROT-PageAssembler/html/";
+		String basePath 		= "/home/aalfodel/git/CMSPROT-PageAssembler/CMSPROT-PageAssembler/html/";
 		String inPath1 			= basePath + "mainPage1.html";
 		String inPath2 			= basePath + "mainPage2.html";
 		String fragmentPath1 	= basePath + "fragmentPage1.html";
