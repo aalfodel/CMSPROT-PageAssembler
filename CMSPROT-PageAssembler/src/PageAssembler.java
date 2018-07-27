@@ -132,17 +132,33 @@ public class PageAssembler {
 	}
 	
 	private void updateFragment(Element newFragmentTree, String oldFragmentId) throws IOException {
-			
-			System.out.println("\n+IN TREE (update)+\n");
-			printNodeRecursive(docTree);
-			
-			System.out.println("\n+FRAGMENT TREE (update)+\n");
-			printNodeRecursive(newFragmentTree);
-			
-			Element oldFragmentTree = docTree.getElementById(oldFragmentId);
-			oldFragmentTree.replaceWith(newFragmentTree);
-			System.out.println("\n+OUT TREE (update)+\n");
-			printNodeRecursive(docTree);
+
+		System.out.println("\n+IN TREE (update)+\n");
+		printNodeRecursive(docTree);
+		
+		System.out.println("\n+FRAGMENT TREE (update)+\n");
+		printNodeRecursive(newFragmentTree);
+
+		
+		Element oldFragmentNode = docTree.getElementById(oldFragmentId);
+		System.out.println("\n**DEBUG** (updateFragment) oldFragmentNode: " + oldFragmentNode);
+		
+		List<Node> oldFragmentNodeChildren = oldFragmentNode.childNodesCopy();	//TODO if use childNodes(), for some reason the nodes gets *removed* when you try to get() one
+		List<Node> newFragmentTreeChildren = newFragmentTree.childNodesCopy();
+		System.out.println("**DEBUG** (updateFragment) oldFragmentNode childNodes: " + oldFragmentNodeChildren + " OF TYPE: " + oldFragmentNodeChildren.getClass());
+		System.out.println("**DEBUG** (updateFragment) oldFragmentNode childNodes size: " + oldFragmentNodeChildren.size());
+		System.out.println("**DEBUG** (updateFragment) newFragmentTree childNodes: " + newFragmentTreeChildren + " OF TYPE: " + newFragmentTreeChildren.getClass());
+		System.out.println("**DEBUG** (updateFragment) newFragmentTree childNodes size: " + newFragmentTreeChildren.size());
+		
+		//add the old node children to the new node, but only those not already present in the new node		
+		for (int i=newFragmentTreeChildren.size(); i<oldFragmentNodeChildren.size(); i++)		//TODO this works only because the order of the children is the same between the old and the new node; check if this is always the case
+			newFragmentTree.appendChild(oldFragmentNodeChildren.get(i));
+		System.out.println("**DEBUG** (updateFragment) newFragmentTree: " + newFragmentTree);
+		
+		oldFragmentNode.replaceWith(newFragmentTree);
+
+		System.out.println("\n+OUT TREE (update)+\n");
+		printNodeRecursive(docTree);
 	}
 	
 	//DEBUGGING UTILITIES
